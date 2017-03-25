@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.akhil.smartparking.MainActivity">
+    <RelativeLayout
+        android:layout_height="match_parent"
+        android:layout_width="match_parent">
+
+    <Button
+        android:id="@+id/p6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorControlHighlight"
+        android:text="P6"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp"
+        android:layout_alignBaseline="@+id/p5"
+        android:layout_alignBottom="@+id/p5"
+        android:layout_toRightOf="@+id/p5"
+        android:layout_toEndOf="@+id/p5" />
+
+    <Button
+        android:id="@+id/p4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/p3"
+        android:layout_alignBottom="@+id/p3"
+        android:layout_toEndOf="@+id/p3"
+        android:layout_toRightOf="@+id/p3"
+        android:background="?attr/colorControlHighlight"
+        android:text="P4"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/p3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/p2"
+        android:layout_alignBottom="@+id/p2"
+        android:layout_toEndOf="@+id/p2"
+        android:layout_toRightOf="@+id/p2"
+        android:background="?attr/colorControlHighlight"
+        android:text="P3"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/p5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorControlHighlight"
+        android:text="P5"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp"
+        android:layout_below="@+id/textView1"
+        android:layout_alignLeft="@+id/p1"
+        android:layout_alignStart="@+id/p1"
+        android:layout_marginTop="89dp" />
+
+    <Button
+        android:id="@+id/p1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorControlHighlight"
+        android:text="P1"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp"
+        android:layout_marginBottom="10dp"
+        android:layout_above="@+id/p6"
+        android:layout_alignLeft="@+id/textView1"
+        android:layout_alignStart="@+id/textView1" />
+
+    <Button
+        android:id="@+id/p2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/p1"
+        android:layout_alignBottom="@+id/p1"
+        android:layout_toEndOf="@+id/p1"
+        android:layout_toRightOf="@+id/p1"
+        android:background="?attr/colorControlHighlight"
+        android:text="P2"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="21dp"
+        android:text="Below are the current available parking spots"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to Smart Parking"
+        android:textAlignment="center"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="14dp" />
+
+    <Button
+        android:id="@+id/r5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/r4"
+        android:layout_alignStart="@+id/r4"
+        android:layout_below="@+id/r4"
+        android:background="?attr/colorControlHighlight"
+        android:text="R5"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/r6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/r5"
+        android:layout_alignStart="@+id/r5"
+        android:layout_below="@+id/r5"
+        android:background="?attr/colorControlHighlight"
+        android:text="R6"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/r1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:background="?attr/colorControlHighlight"
+        android:text="R1"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp"
+        android:layout_below="@+id/p8"
+        android:layout_toRightOf="@+id/p7"
+        android:layout_toEndOf="@+id/p7" />
+
+    <Button
+        android:id="@+id/r2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/r1"
+        android:layout_alignStart="@+id/r1"
+        android:layout_below="@+id/r1"
+        android:background="?attr/colorControlHighlight"
+        android:text="R2"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/r4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/r3"
+        android:layout_alignStart="@+id/r3"
+        android:layout_below="@+id/r3"
+        android:background="?attr/colorControlHighlight"
+        android:text="R4"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/r3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/r2"
+        android:layout_alignStart="@+id/r2"
+        android:layout_below="@+id/r2"
+        android:background="?attr/colorControlHighlight"
+        android:text="R3"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/p8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/p7"
+        android:layout_alignBottom="@+id/p7"
+        android:layout_toEndOf="@+id/p7"
+        android:layout_toRightOf="@+id/p7"
+        android:background="?attr/colorControlHighlight"
+        android:text="P8"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+
+    <Button
+        android:id="@+id/p7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/p6"
+        android:layout_alignBottom="@+id/p6"
+        android:layout_toEndOf="@+id/p6"
+        android:layout_toRightOf="@+id/p6"
+        android:background="?attr/colorControlHighlight"
+        android:text="P7"
+        tools:layout_editor_absoluteX="-1dp"
+        tools:layout_editor_absoluteY="-1dp" />
+    </RelativeLayout>
+</ScrollView>

@@ -1,5 +1,5 @@
 '''
-This program uses a webcam to continuously scan QR codes and determine$
+This program uses a webcam to continuously scan QR codes and determines if
 the QR code is in the list of reservations. The program uses ZBar to interpret
 QR codes
 '''

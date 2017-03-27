@@ -6,24 +6,54 @@
     android:layout_height="match_parent"
     tools:context="com.example.akhil.smartparking.MyReservations">
 
-    <TextView
-        android:text="My Reservations"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/textView3"
-        android:textSize="30sp"
-        android:textStyle="normal|bold"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        tools:layout_editor_absoluteY="50dp"
-        tools:layout_editor_absoluteX="79dp" />
+    <RelativeLayout
+        android:id="@+id/layout"
+        android:layout_height="551dp"
+        android:layout_width="368dp">
 
-    <TextView
-        android:id="@+id/txtDisplay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="txtDisplay"
-        tools:layout_editor_absoluteX="113dp"
-        tools:layout_editor_absoluteY="223dp" />
+        <TextView
+            android:text="My Reservations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/reservation_title"
+            android:textSize="30sp"
+            android:textStyle="normal|bold"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            tools:layout_editor_absoluteY="50dp"
+            tools:layout_editor_absoluteX="79dp" />
+
+<!--
+        <Button
+            android:id="@+id/test_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="?attr/colorControlHighlight"
+            tools:layout_editor_absoluteX="-1dp"
+            tools:layout_editor_absoluteY="-1dp"
+            android:layout_alignBaseline="@+id/p5"
+            android:layout_alignBottom="@+id/p5"
+            android:layout_toRightOf="@+id/p5"
+            android:layout_toEndOf="@+id/p5" />
+-->
+        <ListView
+            android:id="@+id/list"
+            android:layout_alignStart="@+id/reservation_title"
+            android:layout_alignLeft="@+id/reservation_title"
+            android:layout_marginTop="89dp"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:drawSelectorOnTop="false">
+        </ListView>
+            <!--
+            <TextView
+            android:id="@+id/txtDisplay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="txtDisplay"
+            tools:layout_editor_absoluteX="113dp"
+            tools:layout_editor_absoluteY="223dp" />
+            -->
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

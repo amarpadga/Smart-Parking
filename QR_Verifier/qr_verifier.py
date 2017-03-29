@@ -25,10 +25,9 @@ while(1):
         proc.process_one()
         for symbol in proc.results:
                 if(prev_value!=symbol.data):
-                        print "http://smart-parking-bruck.c9users.io:8081/reservations/" + symbol.data
                         try:
                                 url = "http://smart-parking-bruck.c9users.io:8081/reservations/" + symbol.data
-				contents = json.loads(urllib2.urlopen(url).read())
+								contents = json.loads(urllib2.urlopen(url).read())
 
        	                        if(contents[expired_key] == False):
                                         print "Gate opens"

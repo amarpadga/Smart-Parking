@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.widget.*;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -26,6 +28,7 @@ public class MyReservations extends BaseActivity {
 
     private static final String URL_DATA_PATH = "http://smart-parking-bruck.c9users.io:8081/";
     private static final String RESERVATION_PATH = "reservations/";
+    private static final String PARKING_SPOTS_PATH = "parking_spots/";
 
     private static final String RESERVATION_FIELD_FROM = "from";
     private static final String RESERVATION_FIELD_TO = "to";
@@ -68,14 +71,19 @@ public class MyReservations extends BaseActivity {
                                 String endTime = obj.getString(RESERVATION_FIELD_TO);
                                 String parkingSpaceId = obj.getJSONObject(RESERVATION_FIELD_PARKING_SPOT_ID).getString(RESERVTION_FIELD_OID);
 
-                                final Dictionary<String, Object> reservation = new Hashtable<>();
+                                Dictionary<String, Object> reservation = new Hashtable<>();
                                 reservation.put(KEY_TIME_FROM, beginTime);
                                 reservation.put(KEY_TIME_TO, endTime);
                                 reservation.put(KEY_PARKING_SPACE_ID, parkingSpaceId);
+
+                                reservations.add(reservation);
                             }
+                            addReservationsToList();
+                            
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        System.out.println("Point A");
                     }
                 },
                 new Response.ErrorListener() {
@@ -85,6 +93,12 @@ public class MyReservations extends BaseActivity {
                     }
                 });
 
+
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    private void addReservationsToList(){
         userReservationsList = new ArrayList<>();
         adapter = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_list_item_1, userReservationsList);
 
@@ -93,18 +107,21 @@ public class MyReservations extends BaseActivity {
 
         for(final Dictionary reservationObject : reservations) {
             if(reservationObject.get(KEY_PARKING_SPACE_ID) != null) {
-                StringRequest parkingSpotRequest = new StringRequest(Request.Method.GET, URL_DATA_PATH + RESERVATION_PATH + reservationObject.get(KEY_PARKING_SPACE_ID),
+                System.out.println("Path: " + URL_DATA_PATH + PARKING_SPOTS_PATH + reservationObject.get(KEY_PARKING_SPACE_ID));
+                StringRequest parkingSpotRequest = new StringRequest(Request.Method.GET, URL_DATA_PATH + PARKING_SPOTS_PATH + reservationObject.get(KEY_PARKING_SPACE_ID),
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String s) {
                                 try {
-                                    JSONArray jsonArray = new JSONArray(s);
-                                    for (int i = 0; i < jsonArray.length(); i++) {
-                                        JSONObject obj = jsonArray.getJSONObject(i);
+                                        JSONObject obj = new JSONObject(s);
                                         String parkingName = obj.getString(PARKING_SPACE_FIELD_NAME);
 
                                         reservationObject.put(KEY_PARKING_SPACE_NAME, parkingName);
-                                    }
+                                    String reservationItem = TEXT_PARKING_SPACE + reservationObject.get(KEY_PARKING_SPACE_NAME) + TEXT_NEW_LINE
+                                            + TEXT_FROM + reservationObject.get(KEY_TIME_FROM) + TEXT_NEW_LINE
+                                            + TEXT_TO + reservationObject.get(KEY_TIME_TO) + TEXT_NEW_LINE;
+
+                                    adapter.add(reservationItem);
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -116,13 +133,9 @@ public class MyReservations extends BaseActivity {
 
                             }
                         });
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(parkingSpotRequest);
             }
-
-            String reservationItem = TEXT_PARKING_SPACE + reservationObject.get(KEY_PARKING_SPACE_NAME) + TEXT_NEW_LINE
-                    + TEXT_FROM + reservationObject.get(KEY_TIME_FROM) + TEXT_NEW_LINE
-                    + TEXT_TO + reservationObject.get(KEY_TIME_TO) + TEXT_NEW_LINE;
-
-            adapter.add(reservationItem);
         }
     }
 }

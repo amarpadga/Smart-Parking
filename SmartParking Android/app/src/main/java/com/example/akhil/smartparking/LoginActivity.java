@@ -1,40 +1,20 @@
 package com.example.akhil.smartparking;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.annotation.TargetApi;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.app.LoaderManager.LoaderCallbacks;
 
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-
-import android.net.Uri;
-import android.os.AsyncTask;
-
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.inputmethod.EditorInfo;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.AlertDialog;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.Volley;
 
-import static android.Manifest.permission.READ_CONTACTS;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * A login screen that offers login via username/password.
@@ -45,8 +25,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        final EditText username = (EditText) findViewById(R.id.username);
-        final EditText password = (EditText) findViewById(R.id.password);
+        final EditText username1 = (EditText) findViewById(R.id.username);
+        final EditText password1 = (EditText) findViewById(R.id.password);
         final Button email_sign_in_button = (Button) findViewById(R.id.email_sign_in_button);
         final Button signup = (Button) findViewById(R.id.signup);
 
@@ -57,5 +37,71 @@ public class LoginActivity extends BaseActivity {
                 LoginActivity.this.startActivity(registerIntent);
             }
         });
+
+        email_sign_in_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String username = username1.getText().toString();
+                final String password = password1.getText().toString();
+
+                // Response received from the server
+                Response.Listener<String> responseListener = new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonResponse = new JSONObject(response);
+                            System.out.println("Object: " + jsonResponse.toString());
+                           // boolean success = true;//jsonResponse.getBoolean("success");
+                            JSONObject data = jsonResponse.getJSONObject("data");
+                            //System.out.println(data);
+
+                            if (data != null) {
+                                System.out.println("success");
+                                String email  = data.getString("email");
+                                System.out.println(email);
+                                Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                LoginActivity.this.startActivity(mainIntent);
+
+                                String username = data.getString("username");
+                                String password = jsonResponse.getString("password");
+                            } else if (data == null) {
+                                onErrorResponse("Failed");
+                                System.out.println("failed");
+                                AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+                                builder.setMessage("Login Failed")
+                                        .setNegativeButton("Retry", null)
+                                        .create()
+                                        .show();
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    public void onErrorResponse(String message) {
+                       System.out.println(message);
+                    }
+                };
+
+                LoginRequest loginRequest = new LoginRequest(username, password, responseListener, new FailError());
+                RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
+                queue.add(loginRequest);
+            }
+        });
+    }
+
+
+    public class FailError implements Response.ErrorListener {
+
+        public void onErrorResponse(VolleyError volleyError) {
+            System.out.println("failed");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
+            builder.setMessage("Login Failed")
+                    .setNegativeButton("Retry", null)
+                    .create()
+                    .show();
+        }
     }
 }

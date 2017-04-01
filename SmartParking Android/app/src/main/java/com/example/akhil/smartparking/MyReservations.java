@@ -1,6 +1,7 @@
 package com.example.akhil.smartparking;
 
 import android.app.AlertDialog;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
@@ -36,6 +37,7 @@ import android.view.ViewGroup.LayoutParams;
 public class MyReservations extends BaseActivity{
 
     private static final String URL_DATA_PATH = "http://smart-parking-bruck.c9users.io:8081/";
+    private static final String PATH_USER = "users/";
     private static final String RESERVATION_PATH = "reservations/";
     private static final String PARKING_SPOTS_PATH = "parking_spots/";
 
@@ -66,54 +68,65 @@ public class MyReservations extends BaseActivity{
     private List<Button> qrButtons;
     private List<String> qrPaths;
 
+
+    private SharedPreferences mPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_reservations);
 
-        reservations = new ArrayList<>();
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
 
-        qrButtons = new ArrayList<>();
-        qrPaths = new ArrayList<>();
+        if (mPreferences.contains("_id.$oid")) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA_PATH + RESERVATION_PATH,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String s) {
-                        try {
-                            JSONArray jsonArray = new JSONArray(s);
-                            for(int i = 0; i<jsonArray.length(); i++){
-                                JSONObject obj = jsonArray.getJSONObject(i);
-                                String beginTime = obj.getString(RESERVATION_FIELD_FROM);
-                                String endTime = obj.getString(RESERVATION_FIELD_TO);
-                                String parkingSpaceId = obj.getJSONObject(RESERVATION_FIELD_PARKING_SPOT_ID).getString(RESERVATION_FIELD_OID);
-                                String qrCodePath = obj.getString(RESERVATION_FIELD_QR_CODE_PATH);
+            reservations = new ArrayList<>();
 
-                                Dictionary<String, Object> reservation = new Hashtable<>();
-                                reservation.put(KEY_TIME_FROM, beginTime);
-                                reservation.put(KEY_TIME_TO, endTime);
-                                reservation.put(KEY_PARKING_SPACE_ID, parkingSpaceId);
-                                reservation.put(KEY_QR_CODE_PATH, qrCodePath);
+            qrButtons = new ArrayList<>();
+            qrPaths = new ArrayList<>();
+            System.out.println("Test URL: " + URL_DATA_PATH + PATH_USER + mPreferences.getString("_id.$oid","") + "/" + RESERVATION_PATH);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA_PATH +
+                                            PATH_USER + mPreferences.getString("_id.$oid","") + "/" + RESERVATION_PATH,
+                    new Response.Listener<String>(){
+                        @Override
+                        public void onResponse(String s) {
+                            try {
+                                JSONArray jsonArray = new JSONArray(s);
+                                for(int i = 0; i<jsonArray.length(); i++){
+                                    JSONObject obj = jsonArray.getJSONObject(i);
+                                    String beginTime = obj.getString(RESERVATION_FIELD_FROM);
+                                    String endTime = obj.getString(RESERVATION_FIELD_TO);
+                                    String parkingSpaceId = obj.getJSONObject(RESERVATION_FIELD_PARKING_SPOT_ID).getString(RESERVATION_FIELD_OID);
+                                    String qrCodePath = obj.getString(RESERVATION_FIELD_QR_CODE_PATH);
 
-                                reservations.add(reservation);
+                                    Dictionary<String, Object> reservation = new Hashtable<>();
+                                    reservation.put(KEY_TIME_FROM, beginTime);
+                                    reservation.put(KEY_TIME_TO, endTime);
+                                    reservation.put(KEY_PARKING_SPACE_ID, parkingSpaceId);
+                                    reservation.put(KEY_QR_CODE_PATH, qrCodePath);
+
+                                    reservations.add(reservation);
+                                }
+                                addReservationsToList();
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            addReservationsToList();
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError volleyError) {
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError volleyError) {
 
-                    }
-                });
+                        }
+                    });
 
 
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+        } else {
+            System.out.println("User not logged in");
+        }
     }
 
     private void addReservationsToList(){

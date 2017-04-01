@@ -1,8 +1,10 @@
 package com.example.akhil.smartparking;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -14,6 +16,7 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -21,6 +24,8 @@ import java.util.Hashtable;
 public class MainActivity extends BaseActivity {
     private Dictionary<String, Integer> spacesMap;
     private static final String URL_DATA = "http://smart-parking-bruck.c9users.io:8081/parking_spots";
+
+    private SharedPreferences mPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,5 +84,19 @@ public class MainActivity extends BaseActivity {
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+        mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPreferences.contains("uid")) {
+            System.out.println("User login is successful");
+            final TextView test = (TextView) findViewById(R.id.userText);
+            test.setText(mPreferences.getString("_id.$oid","asdasd"));
+        } else {
+            System.out.println("User not logged in");
+        }
     }
 }

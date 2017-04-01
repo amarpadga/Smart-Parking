@@ -4,6 +4,8 @@ package com.example.akhil.smartparking;
  * Created by Akhil on 2017-03-30.
  */
 
+import android.preference.PreferenceActivity;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;

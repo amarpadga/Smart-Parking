@@ -213,5 +213,19 @@
         android:text="P7"
         tools:layout_editor_absoluteX="-1dp"
         tools:layout_editor_absoluteY="-1dp" />
+
+        <TextView
+            android:id="@+id/userText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/r3"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="44dp"
+            android:layout_marginRight="44dp"
+            android:layout_toLeftOf="@+id/p7"
+            android:layout_toStartOf="@+id/p7"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat" />
+
     </RelativeLayout>
 </ScrollView>

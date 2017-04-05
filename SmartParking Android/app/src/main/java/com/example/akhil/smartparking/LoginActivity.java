@@ -79,6 +79,7 @@ public class LoginActivity extends BaseActivity {
                                 System.out.println(email);
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 LoginActivity.this.startActivity(mainIntent);
+                                invalidateOptionsMenu();
 
                                 String username = data.getString("username");
                                 String password = jsonResponse.getString("password");

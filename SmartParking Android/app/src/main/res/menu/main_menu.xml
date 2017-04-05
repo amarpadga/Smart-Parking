@@ -2,6 +2,7 @@
 
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <item
@@ -15,31 +16,26 @@
         android:alphabeticShortcut="a"
         android:orderInCategory="1"
         android:title="Parking View" />
-    <item android:id="@+id/menu2" android:alphabeticShortcut="a"
-        android:title="Barcode" android:orderInCategory="1"
+    <item android:id="@+id/menu3"
+        android:alphabeticShortcut="b"
+        android:title="Login"
+        android:orderInCategory="2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-    <item android:id="@+id/menu3" android:alphabeticShortcut="b"
-        android:title="Login" android:orderInCategory="2"
+        android:layout_height="wrap_content"/>
+    <item
+        android:id="@+id/menu2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-        <menu
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-            <group android:id="@+id/group2" android:checkableBehavior="single"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <item android:id="@+id/submenu1" android:title="Login"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-                <item android:id="@+id/submenu2" android:title="Sign Up"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </group>
-        </menu>
-    </item>
-    <item android:id="@+id/menu4" android:alphabeticShortcut="a"
-        android:title="My Reservations" android:orderInCategory="1"
+        android:layout_height="wrap_content"
+        android:alphabeticShortcut="c"
+        android:orderInCategory="1"
+        android:title="My Reservations"
+        android:visible="false" />
+    <item
+        android:id="@+id/menu4"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:alphabeticShortcut="d"
+        android:orderInCategory="2"
+        android:title="Logout"
+        android:visible="false" />
 </menu>

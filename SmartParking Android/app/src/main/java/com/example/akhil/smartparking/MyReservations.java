@@ -84,7 +84,6 @@ public class MyReservations extends BaseActivity{
 
             qrButtons = new ArrayList<>();
             qrPaths = new ArrayList<>();
-            System.out.println("Test URL: " + URL_DATA_PATH + PATH_USER + mPreferences.getString("_id.$oid","") + "/" + RESERVATION_PATH);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA_PATH +
                                             PATH_USER + mPreferences.getString("_id.$oid","") + "/" + RESERVATION_PATH,
                     new Response.Listener<String>(){

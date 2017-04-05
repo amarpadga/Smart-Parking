@@ -1,8 +1,12 @@
 package com.example.akhil.smartparking;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -18,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -94,7 +99,7 @@ public class MainActivity extends BaseActivity {
         if (mPreferences.contains("uid")) {
             System.out.println("User login is successful");
             final TextView test = (TextView) findViewById(R.id.userText);
-            test.setText(mPreferences.getString("_id.$oid","asdasd"));
+            test.setText("Logged in as " +(mPreferences.getString("username","asdasd")));
         } else {
             System.out.println("User not logged in");
         }

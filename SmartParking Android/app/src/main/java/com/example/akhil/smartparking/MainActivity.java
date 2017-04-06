@@ -91,6 +91,16 @@ public class MainActivity extends BaseActivity {
         requestQueue.add(stringRequest);
 
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+
+        final Button refresh = (Button) findViewById(R.id.refresh);
+
+        refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent refreshIntent = new Intent(MainActivity.this, MainActivity.class);
+                MainActivity.this.startActivity(refreshIntent);
+            }
+        });
     }
 
     @Override

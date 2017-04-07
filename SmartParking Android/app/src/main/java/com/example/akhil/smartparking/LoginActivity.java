@@ -9,8 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.app.AlertDialog;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -20,19 +18,15 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URLConnection;
-
 /**
  * A login screen that offers login via username/password.
  */
 public class LoginActivity extends BaseActivity {
-    //private SharedPreferences mPreferences;
-
-    //private final static String LOGIN_API_ENDPOINT_URL = "https://smart-parking-bruck.c9users.io:8081/auth/sign_in";
     private SharedPreferences mPreferences;
-    private String mUserEmail;
-    private String mUserPassword;
 
+    /**
+     * A login screen that offers login via username/password.
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,33 +56,29 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onResponse(String response) {
                         try {
+                            /*
+                               Make a HTTP GET request for all the parking spots
+                            */
                             JSONObject jsonResponse = new JSONObject(response);
-                            System.out.println("Object: " + jsonResponse.toString());
-                           // boolean success = true;//jsonResponse.getBoolean("success");
                             JSONObject data = jsonResponse.getJSONObject("data");
+
+                            /* Shared preference editor notifies all the activity that a user has
+                             * successfully logged in and saves the user session
+                             */
                             SharedPreferences.Editor editor = mPreferences.edit();
                             editor.putString("uid", data.getString("uid"));
-                            System.out.println("Testtttttttttt"+data.getString("username"));
                             editor.putString("username", data.getString("username"));
                             editor.putString("_id.$oid", data.getJSONObject("_id").getString("$oid"));
                             editor.commit();
 
                             if (data != null) {
-                                System.out.println("success");
                                 String email  = data.getString("email");
-                                System.out.println(email);
                                 Intent mainIntent = new Intent(LoginActivity.this, MainActivity.class);
                                 LoginActivity.this.startActivity(mainIntent);
                                 invalidateOptionsMenu();
 
-                                String username = data.getString("username");
-                                String password = jsonResponse.getString("password");
-
-
-
                             } else if (data == null) {
                                 onErrorResponse("Failed");
-                                System.out.println("failed");
                                 AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
                                 builder.setMessage("Login Failed")
                                         .setNegativeButton("Retry", null)
@@ -106,6 +96,7 @@ public class LoginActivity extends BaseActivity {
                     }
                 };
 
+                //Login Request made through the LoginRequest class
                 LoginRequest loginRequest = new LoginRequest(username, password, responseListener, new FailError());
                 RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
                 queue.add(loginRequest);
@@ -114,14 +105,15 @@ public class LoginActivity extends BaseActivity {
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
     }
 
-
+    /**
+     * If the wrong password has been entered, a dialogue box appears showing the login failed with
+     * a "Retry" button that takes back to the login screen.
+     */
     public class FailError implements Response.ErrorListener {
 
         public void onErrorResponse(VolleyError volleyError) {
-            System.out.println("failed");
-
             AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-            builder.setMessage("Login Failed")
+            builder.setMessage("Login Failed. Wrong username or password")
                     .setNegativeButton("Retry", null)
                     .create()
                     .show();

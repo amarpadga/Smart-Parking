@@ -1,11 +1,9 @@
 package com.example.akhil.smartparking;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,18 +18,26 @@ import com.android.volley.toolbox.Volley;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
-import java.io.IOException;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
+/*
+    This activity is the first activity that is displayed when the app is opened. It displays the
+    current available parking spots denoted by the buttons "P1", "P2", etc. If the spot is not occupied,
+    the button the button turns green, else the button turns red.
+    An HTTP request is made to the server requesting all the parking spots' information, which is then
+    parsed to update the information about the parking spots that are stored in a dictionary.
+ */
 public class MainActivity extends BaseActivity {
     private Dictionary<String, Integer> spacesMap;
     private static final String URL_DATA = "http://smart-parking-bruck.c9users.io:8081/parking_spots";
 
     private SharedPreferences mPreferences;
 
+    /*
+    This function shows the parking spots in action
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,21 +59,23 @@ public class MainActivity extends BaseActivity {
         spacesMap.put("R5", R.id.r5);
         spacesMap.put("R6", R.id.r6);
 
+        /*
+            Make a HTTP GET request for all the parking spots
+         */
         StringRequest stringRequest = new StringRequest(Request.Method.GET, URL_DATA,
                 new Response.Listener<String>(){
                     @Override
                     public void onResponse(String s) {
                         try {
+                            // Iterate over the JSON array, parse, and get the key:value pairs
                             JSONArray jsonArray = new JSONArray(s);
                             for(int i = 0; i<jsonArray.length(); i++){
                                 JSONObject obj = jsonArray.getJSONObject(i);
                                 String name1 = obj.getString("name");
                                 Boolean occupied = obj.getBoolean("occupied");
-                                Boolean reservable = obj.getBoolean("reservable");
-                                Boolean reserved = obj.getBoolean("reserved");
 
-                                System.out.println(name1);
-                                if (occupied == false) {
+                                //If the spot is not occupied, the button the button turns green, else the button turns red.
+                                if (!occupied) {
                                     final Button test = (Button) findViewById(spacesMap.get(name1));
                                     test.setBackgroundColor(Color.GREEN);
                                 } else {
@@ -103,15 +111,19 @@ public class MainActivity extends BaseActivity {
         });
     }
 
+    /*
+    * This function checks if the user is logged in.
+    * If logged in, text appears on the screen showing the user is currently logged in to the session
+    */
     @Override
     public void onResume() {
         super.onResume();
         if (mPreferences.contains("uid")) {
-            System.out.println("User login is successful");
-            final TextView test = (TextView) findViewById(R.id.userText);
-            test.setText("Logged in as " +(mPreferences.getString("username","asdasd")));
+            final TextView textToDisplay = (TextView) findViewById(R.id.userText);
+            textToDisplay.setText("Logged in as " +(mPreferences.getString("username","asdasd")));
         } else {
-            System.out.println("User not logged in");
+            final TextView textToDisplay = (TextView) findViewById(R.id.userText);
+            textToDisplay.setText("No user is currently logged in");
         }
     }
 }

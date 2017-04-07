@@ -1,5 +1,5 @@
 package com.example.akhil.smartparking;
-import android.app.Activity;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,17 +8,24 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+/**
+ * The BaseActivity is being extended by all the activities. This activity is an extension to AppCompatActivity
+ * which was originally the supreme class. By making this class it adds the Menu item to all the classes.
+ */
 public class BaseActivity extends AppCompatActivity{
     private SharedPreferences mPreferences;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
+        //Visibilities of the menu items are set dependant if the user is logged in or not
         mPreferences = getSharedPreferences("CurrentUser", MODE_PRIVATE);
+        //If user is logged in:
         if(mPreferences.contains("uid")){
-            menu.getItem(3).setVisible(false);
-            menu.getItem(2).setVisible(true);
-            menu.getItem(4).setVisible(true);
+            menu.getItem(3).setVisible(false); //LoginActivity is hidden
+            menu.getItem(2).setVisible(true);  //MyReservations activity can be seen
+            menu.getItem(4).setVisible(true);  //Logout button is shown
         }else{
             System.out.println("uid doesnt exist");
         }
@@ -49,6 +56,7 @@ public class BaseActivity extends AppCompatActivity{
                 break;
 
             case R.id.menu4:
+                //Logout is selected. Clears the session and notifies all the activities that the user is not logged in.
                 Toast.makeText(this, "Clicked: Logout", Toast.LENGTH_SHORT).show();
                 SharedPreferences preferences =getSharedPreferences("CurrentUser", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();

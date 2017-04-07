@@ -7,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Register class currently does send information to the database.
+ */
 public class Register extends BaseActivity {
 
     @Override
@@ -14,9 +17,6 @@ public class Register extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        final EditText etUsername = (EditText) findViewById(R.id.etUsername);
-        final EditText etPassword = (EditText) findViewById(R.id.etPassword);
-        final EditText etEmail = (EditText) findViewById(R.id.etEmail);
         final Button regSubmit = (Button) findViewById(R.id.regSubmit);
 
         regSubmit.setOnClickListener(new View.OnClickListener() {

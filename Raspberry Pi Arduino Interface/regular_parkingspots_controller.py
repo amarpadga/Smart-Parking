@@ -19,10 +19,7 @@ previous_value = ''
 previous_time = 0
 previous_value1 = ''
 previous_time1 = 0
-contents = json.loads(urllib2.urlopen("http://smart-parking-bruck.c9users.io:8081/parking_spots/").read())
-#contents = urllib2.urlopen("http://smart-parking-bruck.c9users.io:8081/parking_spots").read()
 
-parking_lot = {}
 
 # This method gets the parking space availability status of the passed parking space parameter
 def get_space_info(space_name):
@@ -41,14 +38,18 @@ def update_parking_space(parking_space_json):
         print parking_space
         open_connection = urllib2.build_opener(urllib2.HTTPHandler)
 		
+
+		request = urllib2.Request('http://smart-parking-bruck.c9users.io:8081/parking_spots/' + parking_space_json["id"]["$oid"], data= str(json.dumps(parking_space)))
+		request.add_header('Content-Type', 'application/json')
+		request.get_method = lambda: 'PUT'
+		url = open_connection.open(request)	
+		
+		
 	
 # Making a request to get all the parking spaces and store their IDs in a dictionary with the parking
 # space name as the key-identifier	
-request = urllib2.Request('http://smart-parking-bruck.c9users.io:8081/parking_spots/' + parking_space_json["id"]["$oid"], data= str(json.dumps(parking_space)))
-request.add_header('Content-Type', 'application/json')
-request.get_method = lambda: 'PUT'
-url = open_connection.open(request)	
-
+contents = json.loads(urllib2.urlopen("http://smart-parking-bruck.c9users.io:8081/parking_spots/").read())
+parking_lot = {}
 for space in contents:
 	parking_lot[space["name"]] = space["id"]["$oid"]
 
